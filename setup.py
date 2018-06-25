@@ -25,9 +25,7 @@ setup(
     author_email='ricardo.arturo.cabral@gmail.com',
     url='https://github.com/Cameri/remindme_plugin',
     packages=[
-        'remindme_plugin',
-        'arrow',
-        'dateparser'
+        'remindme_plugin'
     ],
     package_dir={'remindme_plugin':
                  'remindme_plugin'},
