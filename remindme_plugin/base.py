@@ -56,7 +56,12 @@ class RemindMePlugin(Plugin):
         when_param = ' '.join([s.strip()
                                for s in kwargs.get('when') if len(s.strip())])
         tz = self.adapter.config.get('default_timezone')
-        when = dateparser.parse(when_param, settings={'TIMEZONE': tz})
+        try:
+            when = dateparser.parse(when_param, settings={'TIMEZONE': tz})
+        except:
+            message.reply_text(
+                text='❌ You must specify a valid date.')
+            return
         when_relative = arrow.get(when, tz)
 
         if when_relative < arrow.now(tz):
@@ -144,7 +149,7 @@ On *{remind_date}* you asked me to remind you of this message:
 On *{remind_date}* you asked me to remind you of this message.
 
 Original message sent at *{message_date}*:
-[{message_first_name}](tg://user?id={message_user_id}) said: {message_text}
+*{message_first_name}* said: {message_text}
 """
             adapter.bot.send_message(
                 chat_id=remind_chat_id,
