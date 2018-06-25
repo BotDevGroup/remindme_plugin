@@ -8,7 +8,6 @@ with open('README.rst') as readme_file:
 
 requirements = [
     'marvinbot',
-    'mongoengine',
     'arrow',
     'dateparser'
 ]
@@ -27,6 +26,8 @@ setup(
     url='https://github.com/Cameri/remindme_plugin',
     packages=[
         'remindme_plugin',
+        'arrow',
+        'dateparser'
     ],
     package_dir={'remindme_plugin':
                  'remindme_plugin'},
