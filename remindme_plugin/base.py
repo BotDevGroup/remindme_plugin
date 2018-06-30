@@ -55,11 +55,11 @@ class RemindMePlugin(Plugin):
 
         try:
             when = dateparser.parse(when_param, settings={'TIMEZONE': tz})
+            when_relative = arrow.get(when, tz)
         except:
             message.reply_text(text=REMINDER_INVALID_DATE)
             return
 
-        when_relative = arrow.get(when, tz)
 
         if when_relative < arrow.now(tz):
             message.reply_text(text=REMINDER_NO_FUTURE_DATE)
@@ -93,15 +93,18 @@ class RemindMePlugin(Plugin):
                              replace_existing=True)
         when_str = RemindMePlugin.format_date(when_relative)
         message.reply_text(
-            text=REMINDER_SUCCESS.format(when_str, when_relative.humanize()),
-            parse_mode='HTML'
+            text=REMINDER_SUCCESS.format(
+                remind_first_name=message.from_user.first_name,
+                when=when_str,
+                when_humanized=when_relative.humanize()),
+            parse_mode='Markdown'
         )
 
     @staticmethod
     def format_date(date):
         return '{} at {}'.format(
-            date.format('dddd, MMMM Do, YYYY'),
-            date.format('hh:mm a')
+            date.format(DATE_FORMAT),
+            date.format(TIME_FORMAT)
         )
 
     @staticmethod
